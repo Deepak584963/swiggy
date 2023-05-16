@@ -1,20 +1,36 @@
-import { useEffect, useState } from 'react'
-
-import './App.css'
+import { useEffect, useState } from "react";
+import Head from "./component/Head";
+import Footer from "./component/Footer";
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Body from "./component/Body";
+import AllRestorent from "./component/AllRestaurant";
+import Restaurant from "./component/Restaurant";
+import { Provider } from "react-redux";
+import store from "./Utilities/Store";
 
 function App() {
+  return (
+    <>
+    <Provider store={store}>
+      <Head/>
+      <Body/>
+      <Footer/>
 
-    useEffect(()=>{
-        Getdata()
-    },[])
-
-    async function Getdata(){
-     const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.9124336&lng=75.7872709&page_type=DESKTOP_WEB_LISTING")
-     const json = await data.json()
-     console.log(json)
-    }
-
-  
+    </Provider>
+    </>
+  );
 }
 
-export default App
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: []
+  },
+  {
+    path: "/Restaurant/:resId",
+    element: <Restaurant />
+  }
+]);
+export default App;
